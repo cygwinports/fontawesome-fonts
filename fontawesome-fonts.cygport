@@ -1,0 +1,31 @@
+inherit font
+
+NAME="fontawesome-fonts"
+VERSION=4.7.0
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="Font of scalable vector icons"
+DESCRIPTION="Font Awesome gives you scalable vector icons that can instantly be
+customized — size, color, drop shadow, and anything that can be done with the
+power of CSS."
+HOMEPAGE="http://fontawesome.io/"
+SRC_URI="
+	http://fontawesome.io/assets/font-awesome-${VERSION}.zip
+	http://pkgs.fedoraproject.org/cgit/fontawesome-fonts.git/plain/fontawesome-fonts-fontconfig.conf
+"
+SRC_DIR="font-awesome-${VERSION}"
+
+ARCH=noarch
+
+src_compile() {
+	cd ${S}
+	check_prog_req ttembed
+	ttembed fonts/*.otf # fonts/*.ttf
+}
+
+src_install() {
+	cd ${S}
+	fontinto fontawesome
+	dofont fonts/*.otf # fonts/*.ttf
+	newfontconf fontawesome-fonts-fontconfig.conf 60-fontawesome.conf
+}
